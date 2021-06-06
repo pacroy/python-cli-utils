@@ -62,16 +62,16 @@ jobs:
           # FILTER_REGEX_EXCLUDE: '(.*\.[mM][dD]|\.github/.*)'
           # FILTER_REGEX_INCLUDE: '(.*\.[mM][dD]|\.github/.*)'
           
-          ## ==================================================
-          ## Python
-          ## ==================================================
-          ## Uncomment this section to use only Pylint and disable all others
-          ## Reference: https://github.com/github/super-linter#environment-variables
-          ## ==================================================
-          # VALIDATE_PYTHON_BLACK: false
-          # VALIDATE_PYTHON_FLAKE8: false
-          # VALIDATE_PYTHON_ISORT: false
-          # VALIDATE_PYTHON_MYPY: false
+          # ==================================================
+          # Python
+          # ==================================================
+          # Uncomment this section to use only Pylint and disable all others
+          # Reference: https://github.com/github/super-linter#environment-variables
+          # ==================================================
+          VALIDATE_PYTHON_BLACK: false
+          VALIDATE_PYTHON_FLAKE8: false
+          VALIDATE_PYTHON_ISORT: false
+          VALIDATE_PYTHON_MYPY: false
 
           ## ==================================================
           ## OpenShift
