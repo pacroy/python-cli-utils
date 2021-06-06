@@ -35,11 +35,14 @@ def format_column_text(text, length):
     else:
         return text
 
+def eprint(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
+
 def main(argv):
     try:
         opts, args = getopt.getopt(argv, "hd:b:a", ["help", "directory=", "show-all", "default-branch="])
     except getopt.GetoptError as err:
-        print(f"{bcolors.FAIL}Error: {err}{bcolors.ENDC}")
+        eprint(f"Error: {err}")
         print_usage()
         sys.exit(90)
 
@@ -61,11 +64,11 @@ def main(argv):
     if not directory:
         directory = os.getcwd()
     if not directory:
-        print(f"{bcolors.FAIL}Error: directory is not specified.{bcolors.ENDC}")
+        eprint(f"Error: directory is not specified.")
         print_usage()
         sys.exit(91)
     if not os.path.exists(directory):
-        print(f"{bcolors.FAIL}Error: '{directory}' does not exist.{bcolors.ENDC}")
+        eprint(f"Error: '{directory}' does not exist.")
         sys.exit(92)
 
     branchRegex = re.compile(r"On branch (.+)\n")
