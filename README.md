@@ -12,10 +12,8 @@ Print Git status of all subdirectoies. Use `--help` to see usage.
 $ ./gitscan.py ~/tmp
 Repository              Branch                  Status
 notgit                  n/a                     not a git repository
-master                  master                  clean
-branchstale             main                    clean, -1
-longbranch              this-is-a-very-long-... clean
-branch                  newbranch               clean, +1
+branchstale             main                    clean
+branch                  newbranch               clean
 this_is_a_very_long_... n/a                     not a git repository
 dirty-staged            main                    dirty
 dirty-unstaged          main                    dirty
