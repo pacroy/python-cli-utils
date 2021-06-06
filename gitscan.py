@@ -21,7 +21,7 @@ class bcolors:
 
 def print_usage():
     print("Usage:")
-    print("  python gitscan.py [-d directory] [-b branch] [-a]")
+    print("  python3 gitscan.py [-d directory] [-b branch] [-a]")
     print()
     print("Arguments:")
     print("  -d, --directory directory  : Specify a directory to scan. Omit to scan the current directory.")
