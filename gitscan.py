@@ -22,12 +22,11 @@ class bcolors:
 
 def print_usage():
     print("Usage:")
-    print("  python3 gitscan.py [-b branch] [-a] directory")
+    print("  python3 gitscan.py [-a] directory")
     print()
     print("Arguments:")
     print("  directory : Specify a directory to scan. Omit to scan the current directory.")
     print("Options:")
-    print("  -b, --default-branch branch: Specify the default branch. Default is 'main'.")
     print("  -h, --help                 : Print this usage string.")
     print("  -a, --show-all             : Print all directories. Omit to print only unclean ones.")
 
@@ -61,8 +60,6 @@ def main(argv):
             sys.exit()
         elif opt in ("-a", "--show-all"):
             show_all = True
-        elif opt in ("-b", "--default-branch"):
-            default_branch = arg
     
     if not directory:
         directory = os.getcwd()
@@ -73,8 +70,8 @@ def main(argv):
     branchRegex = re.compile(r"On branch (.+)\n")
     cleanRegex = re.compile(r"nothing to commit")
     notGitRegex = re.compile(r"not a git repository")
-    aheadRegex =re.compile(r"Your branch is ahead of '.+/.+' by (\d+) commit")
-    behindRegex =re.compile(r"Your branch is behind '.+/.+' by (\d+) commit")
+    uptodateRegex = re.compile(r"Your branch is up to date with '.+/.+'")
+    outofsyncRegex = re.compile(r"Your branch is (behind|ahead of) '.+/.+' by (\d+) commit")
 
     directories = os.listdir(directory)
     if len(directories) == 0:
@@ -105,27 +102,20 @@ def main(argv):
             else:
                 branch = branchRegex.findall(stdout)[0]
                 branch_print = format_column_text(branch, 23).ljust(23)
-                if branch == default_branch:
+
+                if uptodateRegex.search(stdout) is not None:
                     result_line += f"\t{bcolors.OKGREEN}{branch_print}{bcolors.ENDC}"
-                else:
+                elif outofsyncRegex.search(stdout) is not None:
                     result_bad = True
                     result_line += f"\t{bcolors.WARNING}{branch_print}{bcolors.ENDC}"
+                else:
+                    result_line += f"\t{branch_print}"
 
                 if cleanRegex.search(stdout) is None:
                     result_bad = True
                     result_line += f"\t{bcolors.WARNING}dirty{bcolors.ENDC}"
                 else:
                     result_line += f"\t{bcolors.OKGREEN}clean{bcolors.ENDC}"
-
-                aheadMatchObject = aheadRegex.search(stdout)
-                if aheadMatchObject is not None:
-                    result_line += f", {bcolors.WARNING}+{aheadMatchObject.group(1)}{bcolors.ENDC}"
-                    result_bad = True
-                else:
-                    behindMatchObject = behindRegex.search(stdout)
-                    if behindMatchObject is not None:
-                        result_line += f", {bcolors.WARNING}-{behindMatchObject.group(1)}{bcolors.ENDC}"
-                        result_bad = True
 
             if show_all or result_bad:
                 print(result_line)
