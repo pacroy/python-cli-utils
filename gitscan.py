@@ -39,8 +39,9 @@ def main(argv):
     try:
         opts, args = getopt.getopt(argv, "hd:b:a", ["help", "directory=", "show-all", "default-branch="])
     except getopt.GetoptError as err:
+        print(f"{bcolors.FAIL}Error: {err}{bcolors.ENDC}")
         print_usage()
-        assert False, f"Error: {err}"
+        sys.exit(90)
 
     directory = ""
     show_all = False
@@ -56,16 +57,16 @@ def main(argv):
             show_all = True
         elif opt in ("-b", "--default-branch"):
             default_branch = arg
-        else:
-            assert False, f"Error: Unrecognized option '{opt}'."
     
     if not directory:
         directory = os.getcwd()
     if not directory:
+        print(f"{bcolors.FAIL}Error: directory is not specified.{bcolors.ENDC}")
         print_usage()
-        assert False, f"Error: directory is not specified."
+        sys.exit(91)
     if not os.path.exists(directory):
-        assert False, f"{bcolors.FAIL}Error: '{directory}' does not exist.{bcolors.ENDC}"
+        print(f"{bcolors.FAIL}Error: '{directory}' does not exist.{bcolors.ENDC}")
+        sys.exit(92)
 
     branchRegex = re.compile(r"On branch (.+)\n")
     cleanRegex = re.compile(r"nothing to commit")
