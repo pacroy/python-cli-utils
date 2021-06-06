@@ -8,7 +8,7 @@ CLI utility scripts written in Python
 
 Print Git status of all subdirectoies. Use `--help` to see usage.
 
-```text
+```console
 $ ./gitscan.py -d ~/tmp
 Repository              Branch                  Status
 notgit                  n/a                     not a git repository
