@@ -22,10 +22,11 @@ class bcolors:
 
 def print_usage():
     print("Usage:")
-    print("  python3 gitscan.py [-d directory] [-b branch] [-a]")
+    print("  python3 gitscan.py [-b branch] [-a] directory")
     print()
     print("Arguments:")
-    print("  -d, --directory directory  : Specify a directory to scan. Omit to scan the current directory.")
+    print("  directory : Specify a directory to scan. Omit to scan the current directory.")
+    print("Options:")
     print("  -b, --default-branch branch: Specify the default branch. Default is 'main'.")
     print("  -h, --help                 : Print this usage string.")
     print("  -a, --show-all             : Print all directories. Omit to print only unclean ones.")
@@ -47,7 +48,10 @@ def main(argv):
         print_usage()
         sys.exit(90)
 
-    directory = ""
+    if len(args) > 0:
+        directory = args[0]
+    else:
+        directory = ""
     show_all = False
     default_branch = "main"
 
@@ -55,8 +59,6 @@ def main(argv):
         if opt in ("-h", "--help"):
             print_usage()
             sys.exit()
-        elif opt in ("-d", "--directory"):
-            directory = os.path.abspath(arg)
         elif opt in ("-a", "--show-all"):
             show_all = True
         elif opt in ("-b", "--default-branch"):
@@ -64,12 +66,8 @@ def main(argv):
     
     if not directory:
         directory = os.getcwd()
-    if not directory:
-        eprint(f"Error: directory is not specified.")
-        print_usage()
-        sys.exit(91)
     if not os.path.exists(directory):
-        eprint(f"Error: '{directory}' does not exist.")
+        eprint(f"Error: Directory '{directory}' does not exist.")
         sys.exit(92)
 
     branchRegex = re.compile(r"On branch (.+)\n")
