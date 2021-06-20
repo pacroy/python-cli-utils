@@ -67,7 +67,7 @@ def main(argv):
         eprint(f"Error: Directory '{directory}' does not exist.")
         sys.exit(92)
 
-    branchRegex = re.compile(r"On branch (.+)\n")
+    branchRegex = re.compile(r"(On branch |HEAD detached at )(.+)\n")
     cleanRegex = re.compile(r"nothing to commit")
     notGitRegex = re.compile(r"not a git repository")
     uptodateRegex = re.compile(r"Your branch is up to date with '.+/.+'")
@@ -108,7 +108,7 @@ def main(argv):
                     stdout_1stline = stdout.partition('\n')[0]
                     result_line += f"\t{bcolors.FAIL}{stdout_1stline}{bcolors.ENDC}"
                 else:
-                    branch = branchRegexMatchedList[0]
+                    branch = branchRegexMatchedList[0][1]
                     branch_print = format_column_text(branch, 23).ljust(23)
 
                     if uptodateRegex.search(stdout) is not None:
