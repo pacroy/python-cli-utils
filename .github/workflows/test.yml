@@ -8,6 +8,16 @@ on:
     branches: [main]
 
 jobs:
+  template:
+    name: Test template
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Test script
+        run: |
+          ./.template.py -a
   gitscan:
     name: Test gitscan
     runs-on: ubuntu-latest
