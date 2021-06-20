@@ -103,6 +103,7 @@ def main(argv):
                 branchRegexMatchedList = branchRegex.findall(stdout)
 
                 if len(branchRegexMatchedList) == 0:
+                    result_bad = True
                     result_line += f"\t{bcolors.FAIL}{stdout}{bcolors.ENDC}"
                 else:
                     branch = branchRegexMatchedList[0]
