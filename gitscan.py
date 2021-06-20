@@ -104,7 +104,9 @@ def main(argv):
 
                 if len(branchRegexMatchedList) == 0:
                     result_bad = True
-                    result_line += f"\t{bcolors.FAIL}{stdout}{bcolors.ENDC}"
+                    result_line += f"\t{'n/a'.ljust(23)}"
+                    stdout_1stline = stdout.partition('\n')[0]
+                    result_line += f"\t{bcolors.FAIL}{stdout_1stline}{bcolors.ENDC}"
                 else:
                     branch = branchRegexMatchedList[0]
                     branch_print = format_column_text(branch, 23).ljust(23)
