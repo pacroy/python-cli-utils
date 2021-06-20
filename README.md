@@ -1,6 +1,8 @@
 # CLI Utility in Python
 
-[![Lint Code Base](https://github.com/pacroy/python-cli-utils/actions/workflows/linter.yml/badge.svg)](https://github.com/pacroy/python-cli-utils/actions/workflows/linter.yml) [![Check Markdown links](https://github.com/pacroy/python-cli-utils/actions/workflows/check-md-links.yml/badge.svg)](https://github.com/pacroy/python-cli-utils/actions/workflows/check-md-links.yml)
+[![Lint Code Base](https://github.com/pacroy/python-cli-utils/actions/workflows/linter.yml/badge.svg)](https://github.com/pacroy/python-cli-utils/actions/workflows/linter.yml)
+[![Check Markdown links](https://github.com/pacroy/python-cli-utils/actions/workflows/check-md-links.yml/badge.svg)](https://github.com/pacroy/python-cli-utils/actions/workflows/check-md-links.yml)
+[![Test CLI](https://github.com/pacroy/python-cli-utils/actions/workflows/test.yml/badge.svg)](https://github.com/pacroy/python-cli-utils/actions/workflows/test.yml)
 
 CLI utility scripts written in Python
 

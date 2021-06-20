@@ -1,0 +1,20 @@
+name: Test CLI
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  gitscan:
+    name: Test gitscan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Test script
+        run: |
+          ./gitscan.py -a ..

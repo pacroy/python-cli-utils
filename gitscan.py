@@ -67,7 +67,7 @@ def main(argv):
         eprint(f"Error: Directory '{directory}' does not exist.")
         sys.exit(92)
 
-    branchRegex = re.compile(r"On branch (.+)\n")
+    branchRegex = re.compile(r"(On branch |HEAD detached at )(.+)\n")
     cleanRegex = re.compile(r"nothing to commit")
     notGitRegex = re.compile(r"not a git repository")
     uptodateRegex = re.compile(r"Your branch is up to date with '.+/.+'")
@@ -100,22 +100,30 @@ def main(argv):
                 else:
                     result_line += f"\t{bcolors.FAIL}{stderr_1stline}{bcolors.ENDC}"
             else:
-                branch = branchRegex.findall(stdout)[0]
-                branch_print = format_column_text(branch, 23).ljust(23)
+                branchRegexMatchedList = branchRegex.findall(stdout)
 
-                if uptodateRegex.search(stdout) is not None:
-                    result_line += f"\t{bcolors.OKGREEN}{branch_print}{bcolors.ENDC}"
-                elif outofsyncRegex.search(stdout) is not None:
+                if len(branchRegexMatchedList) == 0:
                     result_bad = True
-                    result_line += f"\t{bcolors.WARNING}{branch_print}{bcolors.ENDC}"
+                    result_line += f"\t{'n/a'.ljust(23)}"
+                    stdout_1stline = stdout.partition('\n')[0]
+                    result_line += f"\t{bcolors.FAIL}{stdout_1stline}{bcolors.ENDC}"
                 else:
-                    result_line += f"\t{branch_print}"
+                    branch = branchRegexMatchedList[0][1]
+                    branch_print = format_column_text(branch, 23).ljust(23)
 
-                if cleanRegex.search(stdout) is None:
-                    result_bad = True
-                    result_line += f"\t{bcolors.WARNING}dirty{bcolors.ENDC}"
-                else:
-                    result_line += f"\t{bcolors.OKGREEN}clean{bcolors.ENDC}"
+                    if uptodateRegex.search(stdout) is not None:
+                        result_line += f"\t{bcolors.OKGREEN}{branch_print}{bcolors.ENDC}"
+                    elif outofsyncRegex.search(stdout) is not None:
+                        result_bad = True
+                        result_line += f"\t{bcolors.WARNING}{branch_print}{bcolors.ENDC}"
+                    else:
+                        result_line += f"\t{branch_print}"
+
+                    if cleanRegex.search(stdout) is None:
+                        result_bad = True
+                        result_line += f"\t{bcolors.WARNING}dirty{bcolors.ENDC}"
+                    else:
+                        result_line += f"\t{bcolors.OKGREEN}clean{bcolors.ENDC}"
 
             if show_all or result_bad:
                 print(result_line)
