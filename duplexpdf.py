@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # Rearrange PDF pages scanned from non-duplex scanner
 import os, sys, getopt
+import PyPDF2
 
 # Terminal color class
 class bcolors:
@@ -58,10 +59,20 @@ def process_argv(argv):
 
     return script_name, pdf_file
 
+def validate_pdf_pages(pdf_file):
+    pdfFile = open(pdf_file, "rb")
+    pdfReader = PyPDF2.PdfFileReader(pdfFile)
+    totalPages = pdfReader.numPages
+    if totalPages < 4:
+        print_error(f"Error: PDF file must have at least 4 pages")
+        sys.exit(93)
+    if totalPages % 2 != 0:
+        print_error(f"Error: PDF file does not have even number of pages")
+        sys.exit(94)
+
 def main(argv):
-    script_name, pdf_file = process_argv(argv)
-    print(f"script  : {script_name}")
-    print(f"pdf_file: {pdf_file}")
+    _, pdf_file = process_argv(argv)
+    validate_pdf_pages(pdf_file)
 
 if __name__ == "__main__":
     main(sys.argv)
