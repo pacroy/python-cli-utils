@@ -69,10 +69,29 @@ def validate_pdf_pages(pdf_file):
     if totalPages % 2 != 0:
         print_error(f"Error: PDF file does not have even number of pages")
         sys.exit(94)
+    return pdfFile, pdfReader
+
+def rearrange_pdf_pages(pdfReader):
+    writer = PyPDF2.PdfFileWriter()
+
+    totalPages = pdfReader.numPages
+    for i in range(int(totalPages / 2)):
+        page = pdfReader.getPage(i)
+        writer.addPage(page)
+        page = pdfReader.getPage(totalPages-1-i)
+        writer.addPage(page)
+
+    return writer
 
 def main(argv):
     _, pdf_file = process_argv(argv)
-    validate_pdf_pages(pdf_file)
+    pdfFile, pdfReader = validate_pdf_pages(pdf_file)
+    pdfWriter = rearrange_pdf_pages(pdfReader)
+
+    pdfFile.close()
+    outputFile = open(pdf_file, "wb")
+    pdfWriter.write(outputFile)
+    outputFile.close()
 
 if __name__ == "__main__":
     main(sys.argv)
