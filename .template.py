@@ -15,12 +15,13 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 def print_usage(script_name):
-    print("Usage:")
-    print(f"  python {script_name} [-a] [directory]")
+    print(f"usage: python {script_name} [-a] [directory]")
     print()
-    print("Arguments:")
+    print("Do something script")
+    print()
+    print("arguments:")
     print("  directory : Specify a directory. Omit to use the current directory.")
-    print("Options:")
+    print("options:")
     print("  -h, --help                 : Print this usage string")
     print("  -a, --show-all             : Show all information")
 
