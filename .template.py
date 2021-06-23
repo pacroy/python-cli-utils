@@ -33,7 +33,7 @@ def process_argv(argv):
     script_name = argv[0]
 
     try:
-        opts, args = getopt.getopt(argv[1:], "hd:b:a", ["help", "directory=", "show-all", "default-branch="])
+        opts, args = getopt.getopt(argv[1:], "ha", ["help", "show-all"])
     except getopt.GetoptError as err:
         print_error(f"Error: {err}")
         print_usage(script_name)
