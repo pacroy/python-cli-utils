@@ -36,4 +36,5 @@ jobs:
         uses: actions/checkout@v2
       - name: Test script
         run: |
+          pip install PyPDF2
           ./duplexpdf.py tests/duplexpdf.pdf
