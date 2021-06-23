@@ -15,14 +15,14 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 def print_usage(script_name):
-    print("Usage:")
-    print(f"  python {script_name} [-a] [directory]")
+    print(f"usage: python {script_name} pdf_file")
     print()
-    print("Arguments:")
-    print("  directory : Specify a directory. Omit to use the current directory.")
-    print("Options:")
+    print("Reaarange duplex PDF document scanned from your simplex scanner.")
+    print()
+    print("arguments:")
+    print("  pdf_file : PDF file to rearrange pages")
+    print("options:")
     print("  -h, --help                 : Print this usage string")
-    print("  -a, --show-all             : Show all information")
 
 def print_error(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
@@ -32,38 +32,36 @@ def process_argv(argv):
     script_name = argv[0]
 
     try:
-        opts, args = getopt.getopt(argv[1:], "hd:b:a", ["help", "directory=", "show-all", "default-branch="])
+        opts, args = getopt.getopt(argv[1:], "h", ["help"])
     except getopt.GetoptError as err:
         print_error(f"Error: {err}")
         print_usage(script_name)
         sys.exit(90)
 
     if len(args) > 0:
-        directory = args[0]
+        pdf_file = args[0]
     else:
-        directory = ""
-    show_all = False
+        pdf_file = ""
 
     for opt, arg in opts:
         if opt in ("-h", "--help"):
             print_usage(script_name)
             sys.exit()
-        elif opt in ("-a", "--show-all"):
-            show_all = True
 
-    if not directory:
-        directory = os.getcwd()
-    if not os.path.exists(directory):
-        print_error(f"Error: Directory '{directory}' does not exist.")
+    if not pdf_file:
+        print_error(f"Error: Missing mandatory argument: pdf_file")
+        print_usage(script_name)
         sys.exit(91)
+    if not os.path.exists(pdf_file):
+        print_error(f"Error: File '{pdf_file}' does not exist.")
+        sys.exit(92)
 
-    return script_name, show_all, directory
+    return script_name, pdf_file
 
 def main(argv):
-    script_name, show_all, directory = process_argv(argv)
-    print(f"script   : {script_name}")
-    print(f"show-all : {show_all}")
-    print(f"directory: {directory}")
+    script_name, pdf_file = process_argv(argv)
+    print(f"script  : {script_name}")
+    print(f"pdf_file: {pdf_file}")
 
 if __name__ == "__main__":
     main(sys.argv)
